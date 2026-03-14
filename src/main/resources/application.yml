@@ -3,15 +3,15 @@ spring:
     name: apr-backend-assignment
 
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:buddy
     driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    username: username
+    password: password
 
   h2:
     console:
-    enabled: true
-    path: /h2-console
+      enabled: true
+      path: /h2-console
 
   jpa:
     hibernate:

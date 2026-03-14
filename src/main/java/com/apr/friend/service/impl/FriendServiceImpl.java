@@ -1,5 +1,6 @@
 package com.apr.friend.service.impl;
 
+import com.apr.friend.repository.FriendRepository;
 import com.apr.friend.service.FriendService;
 import com.apr.friend.service.vo.FriendActionCommand;
 import com.apr.friend.service.vo.FriendListQuery;
@@ -11,6 +12,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FriendServiceImpl implements FriendService {
+
+    public FriendServiceImpl(FriendRepository friendRepository) {
+        this.friendRepository = friendRepository;
+    }
+
+    private final FriendRepository friendRepository;
 
     @Override
     public FriendListResult getFriendList(FriendListQuery query) {
