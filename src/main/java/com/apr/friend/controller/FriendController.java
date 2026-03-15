@@ -12,6 +12,7 @@ import com.apr.friend.service.vo.FriendRequestCommand;
 import com.apr.friend.service.vo.ReceivedRequestsQuery;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -29,12 +30,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/friend")
 @Tag(name = "Friend API")
+@RequiredArgsConstructor
 public class FriendController {
-
-    public FriendController(FriendService friendService, FriendMapper friendMapper) {
-        this.friendService = friendService;
-        this.friendMapper = friendMapper;
-    }
 
     private final FriendService friendService;
     private final FriendMapper friendMapper;
@@ -44,7 +41,7 @@ public class FriendController {
             @RequestHeader("X-User-Id") Long userId,
             @PageableDefault(sort = "approvedAt", direction = Sort.Direction.DESC) Pageable pageable) {
         var result = friendService.getFriendList(new FriendListQuery(userId, pageable));
-        return ApiResponse.success(FriendListResponse.of(result));
+        return ApiResponse.ok(friendMapper.toFriendListResponse(result));
     }
 
     @GetMapping("/requests")
@@ -53,7 +50,7 @@ public class FriendController {
             @RequestParam(defaultValue = "20") int maxSize,
             @RequestParam(defaultValue = "1d") String window) {
         var result = friendService.getReceivedRequests(new ReceivedRequestsQuery(userId, maxSize, window));
-        return ApiResponse.success(friendMapper.toResponse(result));
+        return ApiResponse.ok(friendMapper.toResponse(result));
     }
 
     @PostMapping("/request")
