@@ -18,4 +18,32 @@ public class FriendRepositoryImpl implements FriendRepository {
     public Page<Friend> findAllFriends(Long userId, Pageable pageable) {
         return friendRepositoryJpa.findFriendsByStatus(userId, FriendStatus.ACCEPTED, pageable);
     }
+
+    @Override
+    public List<RequestItemResult> findAllReceivedRequests(ReceivedRequestsQuery query, LocalDateTime from, LocalDateTime to) {
+        QFriend friend = QFriend.friend;
+        return queryFactory.select(new QRequestItemResult(
+                        friend.friendRequestId,
+                        friend.fromAccountId,
+                        friend.requestedAt
+                ))
+                .from(friend)
+                .where(
+                        friend.toAccountId.eq(query.userId()),
+                        friend.friendStatus.eq(FriendStatus.PENDING),
+                        friend.requestedAt.between(from, to)
+                ).orderBy(friend.requestedAt.desc())
+                .limit(query.maxSize())
+                .fetch();
+    }
+
+    @Override
+    public void save(Friend friend) {
+        friendRepositoryJpa.save(friend);
+    }
+
+    @Override
+    public Optional<Friend> findById(UUID friendRequestId) {
+        return friendRepositoryJpa.findFirstByFriendRequestId(friendRequestId);
+    }
 }
