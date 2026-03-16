@@ -38,7 +38,20 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public FriendRequestListResult getReceivedRequests(ReceivedRequestsQuery query) {
-        return null;
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime from = query.window().getFromDateTime(now);
+        LocalDateTime to = query.window().getToDateTime(now);
+        var results = friendRepository.findAllReceivedRequests(
+                query,
+                from,
+                to
+        );
+
+        return new FriendRequestListResult(
+                query.window().stringValue(),
+                results.size(),
+                results
+        );
     }
 
     @Override
