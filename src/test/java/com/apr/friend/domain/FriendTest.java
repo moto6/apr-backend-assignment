@@ -53,5 +53,26 @@ class FriendTest {
                 .friendStatus(FriendStatus.PENDING)
                 .requestedAt(LocalDateTime.now())
                 .build();
+
+    @Test
+    @DisplayName("수락 시 수신자가 아닌 사용자가 호출하면 예외가 발생한다")
+    void accept_ShouldThrowException_WhenCallerIsNotToAccount() {
+        // given: 111L이 2L에게 친구 요청을 보낸 상황
+        Long fromAccountId = 111L;
+        Long toAccountId = 2L;
+        Friend friend = Friend.requestOf(fromAccountId, toAccountId);
+
+        // when & then: 요청자(111L)가 직접 수락을 시도하면 에러 발생
+        assertThatThrownBy(() -> friend.accept(fromAccountId))
+                .isInstanceOf(InsufficientPermissionException.class)
+                .hasMessageContaining("권한이 없습니다");
+
+        // when & then: 제3의 인물(999L)이 수락을 시도해도 에러 발생
+        Long strangerId = 999L;
+        assertThatThrownBy(() -> friend.accept(strangerId))
+                .isInstanceOf(InsufficientPermissionException.class)
+                .hasMessageContaining("권한이 없습니다");
+    }
+
     }
 }
