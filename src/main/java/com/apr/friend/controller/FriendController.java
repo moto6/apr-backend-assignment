@@ -1,7 +1,7 @@
 package com.apr.friend.controller;
 
-import com.apr.context.ApiResponse;
-import com.apr.context.FriendMapper;
+import com.apr.context.advice.ApiResponse;
+import com.apr.context.mapper.FriendMapper;
 import com.apr.friend.controller.dto.FriendListResponse;
 import com.apr.friend.controller.dto.FriendRequestDto;
 import com.apr.friend.controller.dto.FriendRequestListResponse;

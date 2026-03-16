@@ -1,4 +1,4 @@
-package com.apr.context;
+package com.apr.context.advice;
 
 import com.apr.friend.domain.InsufficientPermissionException;
 import com.apr.friend.service.impl.FriendNotFoundException;

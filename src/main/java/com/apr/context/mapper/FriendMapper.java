@@ -1,4 +1,4 @@
-package com.apr.context;
+package com.apr.context.mapper;
 
 import com.apr.friend.controller.dto.FriendListResponse;
 import com.apr.friend.controller.dto.FriendRequestListResponse;
