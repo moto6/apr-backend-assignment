@@ -8,13 +8,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 public interface FriendRepositoryJpa extends JpaRepository<Friend, Long> {
     @Query("SELECT f FROM Friend f " +
             "WHERE f.friendStatus = :status " +
             "AND (f.fromAccount.accountId = :userId OR f.toAccount.accountId = :userId)")
     Page<Friend> findFriendsByStatus(
             @Param("userId") Long userId,
-            @Param("status") FriendStatus status,
+            @Param("code") FriendStatus status,
             Pageable pageable
     );
+
+    List<Friend> findByFriendRequestId(UUID friendRequestId);
+
+    Optional<Friend> findFirstByFriendRequestId(UUID friendRequestId);
 }
