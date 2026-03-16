@@ -69,6 +69,8 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void rejectFriend(FriendActionCommand command) {
-
+        var friend = friendRepository.findById(command.requestId())
+                .orElseThrow(() -> new FriendNotFoundException(command.requestId()));
+        friend.reject(command.accountId());
     }
 }
