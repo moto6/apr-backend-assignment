@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -32,14 +31,18 @@ class FriendTest {
     @Test
     @DisplayName("이미 거절된 상태에서 다시 수락을 호출하면 예외가 발생해야 한다")
     void accept_ShouldThrowException_WhenAlreadyAccepted() {
-        // given: ACCEPTED 상태인 친구 둘
-        Friend friend = createPendingFriend(1L, 2L);
-        friend.reject(1L);
+        // given
+        Long fromAccountId = 330L;
+        Long toAccountId = 787L;
+        Friend friend = Friend.requestOf(fromAccountId, toAccountId);
+
         // when
-        // then : 거절 후 수락 시 예외 발생
-        assertThatThrownBy(() -> friend.accept(1L))
-                .isInstanceOf(IllegalStateException.class);
-//                .hasMessageContaining("거절된 요청입니다");
+        friend.reject(toAccountId);
+
+        // then
+        assertThatThrownBy(() -> friend.accept(toAccountId))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("이미 처리된 요청입니다");
     }
 
     private Friend createPendingFriend(Long fromAccountId, Long toAccountId) {
