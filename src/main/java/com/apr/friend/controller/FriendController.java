@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,7 +50,9 @@ public class FriendController {
             @RequestHeader("X-User-Id") Long userId,
             @RequestParam(defaultValue = "20") int maxSize,
             @RequestParam(defaultValue = "1d") String window) {
-        var result = friendService.getReceivedRequests(new ReceivedRequestsQuery(userId, maxSize, window));
+        var result = friendService.getReceivedRequests(
+                ReceivedRequestsQuery.of(userId, maxSize, window)
+        );
         return ApiResponse.ok(friendMapper.toResponse(result));
     }
 
