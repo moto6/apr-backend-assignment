@@ -54,12 +54,11 @@ public class FriendController {
     }
 
     @PostMapping("/request")
-    public ApiResponse<Void> requestFriend(
-            @RequestHeader("X-User-Id") Long fromUserId,
+    public ResponseEntity<Void> requestFriend(
+            @RequestHeader("X-User-Id") Long fromAccountId,
             @Valid @RequestBody FriendRequestDto requestDto) {
-
-        friendService.requestFriend(new FriendRequestCommand(fromUserId, requestDto.toUserId()));
-        return ApiResponse.ok();
+        friendService.requestFriend(new FriendRequestCommand(fromAccountId, requestDto.toAccountId()));
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/accept/{requestId}")
