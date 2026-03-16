@@ -1,6 +1,7 @@
 package com.apr.friend.repository;
 
 import com.apr.friend.domain.Friend;
+import com.apr.friend.service.vo.FriendItemResult;
 import com.apr.friend.service.vo.ReceivedRequestsQuery;
 import com.apr.friend.service.vo.RequestItemResult;
 import org.springframework.data.domain.Page;
