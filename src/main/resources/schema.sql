@@ -8,13 +8,14 @@ CREATE TABLE account (
 );
 
 CREATE TABLE friend (
-                        friend_id BIGINT NOT NULL,
+                        friend_request_id UUID NOT NULL,
                         from_account_id BIGINT NOT NULL,
                         to_account_id BIGINT NOT NULL,
                         friend_status VARCHAR(20) NOT NULL, -- PENDING, ACCEPTED, REJECTED
                         requested_at TIMESTAMP,
                         approved_at TIMESTAMP,
-                        CONSTRAINT pk_friend PRIMARY KEY (friend_id),
+                        rejected_at TIMESTAMP,
+                        CONSTRAINT pk_friend PRIMARY KEY (friend_request_id),
                         CONSTRAINT fk_friend_on_from_account FOREIGN KEY (from_account_id) REFERENCES account (account_id),
                         CONSTRAINT fk_friend_on_to_account FOREIGN KEY (to_account_id) REFERENCES account (account_id)
 );
