@@ -1,51 +1,49 @@
--- 1. Account 데이터 (10명)
-INSERT INTO account (account_id, name) VALUES (1, '나(Tester)');
+INSERT INTO account (account_id, name) VALUES (1, '테스트');
 INSERT INTO account (account_id, name) VALUES (2, '김철수');
 INSERT INTO account (account_id, name) VALUES (3, '이영희');
 INSERT INTO account (account_id, name) VALUES (4, '박지성');
 INSERT INTO account (account_id, name) VALUES (5, '손흥민');
 INSERT INTO account (account_id, name) VALUES (6, '차범근');
-INSERT INTO account (account_id, name) VALUES (7, '김연아');
+INSERT INTO account (account_id, name) VALUES (7, '김김김');
 INSERT INTO account (account_id, name) VALUES (8, '페이커');
 INSERT INTO account (account_id, name) VALUES (9, '뉴진스');
-INSERT INTO account (account_id, name) VALUES (10, '아이브');
+INSERT INTO account (account_id, name) VALUES (101, '자동차');
+INSERT INTO account (account_id, name) VALUES (707, '비행기');
 
--- 2. Friend 데이터 (10개)
--- 1번 유저(나)를 기준으로 다양한 케이스 구성
-
--- Case A: 내가 신청해서 수락됨 (ACCEPTED)
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 1, 2, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 11:00:00');
+VALUES (10000001, 1, 2, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 11:00:00');
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 1, 3, 'ACCEPTED', '2026-03-15 09:00:00', '2026-03-15 15:00:00');
-
--- Case B: 상대가 신청해서 내가 수락함 (ACCEPTED)
+VALUES (10000002, 1, 3, 'ACCEPTED', '2026-03-15 09:00:00', '2026-03-15 15:00:00');
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 4, 1, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 12:00:00');
+VALUES (100000013, 4, 1, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 12:00:00');
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 5, 1, 'ACCEPTED', '2026-03-15 14:00:00', '2026-03-15 09:30:00');
+VALUES (100000014, 5, 1, 'ACCEPTED', '2026-03-15 14:00:00', '2026-03-15 09:30:00');
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 6, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
+VALUES (100000015, 6, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 7, 1, 'PENDING', '2026-03-15 10:00:00', NULL);
+VALUES (100000016, 7, 1, 'PENDING', '2026-03-15 10:00:00', NULL);
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 2, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
+VALUES (100000017, 2, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 3, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
+VALUES (100000018, 3, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 4, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
-
--- Case D: 최근 수락된 친구 (정렬 확인용)
+VALUES (100000019, 4, 1, 'PENDING', '2026-03-15 11:00:00', NULL);
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 1, 8, 'ACCEPTED', '2026-03-15 12:00:00', '2026-03-15 13:00:00');
-
--- Case E: 거절됨 (REJECTED) -> 목록 조회 시 나오지 않아야 함
+VALUES (100000050, 1, 8, 'ACCEPTED', '2026-03-15 12:00:00', '2026-03-15 13:00:00');
 INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, rejected_at,
                     approved_at)
-VALUES (RANDOM_UUID(), 9, 1, 'REJECTED', '2026-03-15 10:00:00', '2026-03-15 11:00:00', NULL);
+VALUES (100000051, 9, 1, 'REJECTED', '2026-03-15 10:00:00', '2026-03-15 11:00:00', NULL);
+INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
+VALUES (100000052, 9, 101, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 10:00:00');
+INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
+VALUES (100000053, 101, 9, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 10:00:00');
 
--- Case F: 나랑 아예 상관없는 유저들끼리의 관계 -> 목록 조회 시 나오지 않아야 함
-INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 9, 10, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 10:00:00');
-INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at, approved_at)
-VALUES (RANDOM_UUID(), 10, 9, 'ACCEPTED', '2026-03-15 10:00:00', '2026-03-15 10:00:00');
+-- 거절 수락 테스트
+INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at)
+VALUES (7777101, 101, 707, 'PENDING', CURRENT_TIMESTAMP);
+INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at)
+VALUES (7777102, 101, 707, 'PENDING', CURRENT_TIMESTAMP);
+INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at)
+VALUES (7777103, 707, 101, 'PENDING', CURRENT_TIMESTAMP);
+INSERT INTO friend (friend_request_id, from_account_id, to_account_id, friend_status, requested_at)
+VALUES (7777104, 707, 101, 'PENDING', CURRENT_TIMESTAMP);
