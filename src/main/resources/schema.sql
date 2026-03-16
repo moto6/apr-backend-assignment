@@ -8,7 +8,7 @@ CREATE TABLE account (
 );
 
 CREATE TABLE friend (
-                        friend_request_id UUID NOT NULL,
+                        friend_request_id BIGINT NOT NULL,
                         from_account_id BIGINT NOT NULL,
                         to_account_id BIGINT NOT NULL,
                         friend_status VARCHAR(20) NOT NULL, -- PENDING, ACCEPTED, REJECTED

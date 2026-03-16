@@ -1,5 +1,6 @@
 package com.apr.friend.domain;
 
+import com.apr.context.identity.LongIdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -26,7 +26,8 @@ import static java.util.Objects.requireNonNull;
 public class Friend {
 
     @Id
-    private UUID friendRequestId;
+    @Column(name = "friend_request_id", updatable = false)
+    private Long friendRequestId;
 
     @Column(name = "from_account_id")
     private Long fromAccountId;
@@ -58,7 +59,7 @@ public class Friend {
         requireNonNull(fromAccountId);
         requireNonNull(toAccountId);
         return Friend.builder()
-                .friendRequestId(UUID.randomUUID())
+                .friendRequestId(LongIdGenerator.nextId())
                 .toAccountId(toAccountId)
                 .fromAccountId(fromAccountId)
                 .friendStatus(FriendStatus.PENDING)
@@ -67,27 +68,27 @@ public class Friend {
     }
 
     public void accept(Long accountId) {
-        if (hasPermission(accountId)) {
-            validateTransition(FriendStatus.ACCEPTED);
-            this.friendStatus = FriendStatus.ACCEPTED;
-            this.approvedAt = LocalDateTime.now();
-        }
-    }
-
-    private boolean hasPermission(Long accountId) {
-        requireNonNull(accountId);
-        return toAccountId.equals(accountId);
+        checkPermission(accountId);
+        checkTransition();
+        this.friendStatus = FriendStatus.ACCEPTED;
+        this.approvedAt = LocalDateTime.now();
     }
 
     public void reject(Long accountId) {
-        if (hasPermission(accountId)) {
-            validateTransition(FriendStatus.REJECTED);
-            this.friendStatus = FriendStatus.REJECTED;
-            this.rejectedAt = LocalDateTime.now();
+        checkPermission(accountId);
+        checkTransition();
+        this.friendStatus = FriendStatus.REJECTED;
+        this.rejectedAt = LocalDateTime.now();
+    }
+
+    private void checkPermission(Long accountId) {
+        requireNonNull(accountId);
+        if (!toAccountId.equals(accountId)) {
+            throw new InsufficientPermissionException(toAccountId, accountId);
         }
     }
 
-    private void validateTransition(FriendStatus nextStatus) {
+    private void checkTransition() {
         if (this.friendStatus != FriendStatus.PENDING) {
             throw new IllegalStateException(
                     String.format("이미 처리된 요청입니다. (현재 상태: %s)", this.friendStatus)
