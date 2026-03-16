@@ -45,14 +45,6 @@ class FriendTest {
                 .hasMessageContaining("이미 처리된 요청입니다");
     }
 
-    private Friend createPendingFriend(Long fromAccountId, Long toAccountId) {
-        return Friend.builder()
-                .friendRequestId(UUID.randomUUID())
-                .fromAccountId(fromAccountId)
-                .toAccountId(toAccountId)
-                .friendStatus(FriendStatus.PENDING)
-                .requestedAt(LocalDateTime.now())
-                .build();
 
     @Test
     @DisplayName("수락 시 수신자가 아닌 사용자가 호출하면 예외가 발생한다")
@@ -74,5 +66,16 @@ class FriendTest {
                 .hasMessageContaining("권한이 없습니다");
     }
 
+    @Test
+    @DisplayName("거절 시 수신자가 아닌 사용자가 호출하면 예외가 발생한다")
+    void reject_ShouldThrowException_WhenCallerIsNotToAccount() {
+        // given
+        Friend friend = Friend.requestOf(111L, 2L);
+
+        // when & then: 요청을 받은 사람 이외에 거절을 시도하면 에러 발생
+        assertThatThrownBy(() -> friend.reject(111L))
+                .isInstanceOf(InsufficientPermissionException.class);
+        assertThatThrownBy(() -> friend.accept(111L))
+                .isInstanceOf(InsufficientPermissionException.class);
     }
 }
