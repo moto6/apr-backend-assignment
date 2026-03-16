@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/v1/friend")
 @Tag(name = "Friend API")
@@ -61,23 +59,25 @@ public class FriendController {
             @RequestHeader("X-User-Id") Long fromAccountId,
             @Valid @RequestBody FriendRequestDto requestDto) {
         friendService.requestFriend(new FriendRequestCommand(fromAccountId, requestDto.toAccountId()));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+                .build();
     }
 
     @PostMapping("/accept/{requestId}")
-    public ApiResponse<Void> acceptFriend(
+    public ResponseEntity<Void> acceptFriend(
             @RequestHeader("X-User-Id") Long accountId,
-            @PathVariable UUID requestId) {
+            @PathVariable Long requestId) {
         friendService.acceptFriend(new FriendActionCommand(accountId, requestId));
-        return ApiResponse.ok();
+        return ResponseEntity.ok()
+                .build();
     }
 
     @PostMapping("/reject/{requestId}")
-    public ApiResponse<Void> rejectFriend(
+    public ResponseEntity<Void> rejectFriend(
             @RequestHeader("X-User-Id") Long userId,
-            @PathVariable UUID requestId) {
-
+            @PathVariable Long requestId) {
         friendService.rejectFriend(new FriendActionCommand(userId, requestId));
-        return ApiResponse.ok();
+        return ResponseEntity.ok()
+                .build();
     }
 }
