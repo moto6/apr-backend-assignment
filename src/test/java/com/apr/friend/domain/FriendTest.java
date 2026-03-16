@@ -15,11 +15,13 @@ class FriendTest {
     @DisplayName("수락(accept) 호출 시 상태가 ACCEPTED로 변경되고 승인 시간이 기록되어야 한다")
     void accept_ShouldChangeStatusAndRecordTime() {
         // given: PENDING 상태의 친구
-        Friend friend = createPendingFriend(1L, 2L);
+        Long fromAccountId = 111L;
+        Long toAccountId = 707L;
+        Friend friend = Friend.requestOf(fromAccountId, toAccountId);
         LocalDateTime beforeAccept = LocalDateTime.now();
 
         // when: 수락 호출
-        friend.accept(1L);
+        friend.accept(toAccountId);
 
         // then
         assertThat(friend.getFriendStatus()).isEqualTo(FriendStatus.ACCEPTED);
