@@ -66,10 +66,9 @@ public class FriendController {
 
     @PostMapping("/accept/{requestId}")
     public ApiResponse<Void> acceptFriend(
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestHeader("X-User-Id") Long accountId,
             @PathVariable UUID requestId) {
-
-        friendService.acceptFriend(new FriendActionCommand(userId, requestId));
+        friendService.acceptFriend(new FriendActionCommand(accountId, requestId));
         return ApiResponse.ok();
     }
 
