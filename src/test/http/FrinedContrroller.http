@@ -44,9 +44,6 @@ POST {{baseUrl}}/api/v1/friend/accept/{{requestId_3}}
 X-User-Id: 101
 
 
-### 5. 친구 요청 거절
-POST {{baseUrl}}/api/v1/friend/reject/{{requestId}}
-X-User-Id: {{myUserId}}
 ### 5. 친구 요청 거절1
 POST {{baseUrl}}/api/v1/friend/reject/{{requestId_2}}
 X-User-Id: 707

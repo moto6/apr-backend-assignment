@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,14 +24,11 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public FriendListResult getFriendList(FriendListQuery query) {
-        Page<Friend> friendPage = friendRepository.findAllFriends(query.userId(), query.pageable());
-        List<FriendItemResult> items = friendPage.getContent().stream()
-                .map(friend -> FriendItemResult.from(friend, query.userId()))
-                .toList();
+        Page<FriendItemResult> items = friendRepository.findAllFriends(query.userId(), query.pageable());
         return new FriendListResult(
-                friendPage.getTotalPages(),
-                friendPage.getTotalElements(),
-                items
+                items.getTotalPages(),
+                items.getTotalElements(),
+                items.toList()
         );
     }
 

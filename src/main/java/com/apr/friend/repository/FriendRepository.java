@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FriendRepository {
-    Page<Friend> findAllFriends(Long userId, Pageable pageable);
+    Page<FriendItemResult> findAllFriends(Long userId, Pageable pageable);
 
     List<RequestItemResult> findAllReceivedRequests(ReceivedRequestsQuery query, LocalDateTime from, LocalDateTime to);
 

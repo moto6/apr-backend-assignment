@@ -24,10 +24,43 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     private final FriendRepositoryJpa friendRepositoryJpa;
     private final JPAQueryFactory queryFactory;
+    private final QFriend friend = QFriend.friend;
 
     @Override
-    public Page<Friend> findAllFriends(Long userId, Pageable pageable) {
-        return friendRepositoryJpa.findFriendsByStatus(userId, FriendStatus.ACCEPTED, pageable);
+    public Page<FriendItemResult> findAllFriends(Long userId, Pageable pageable) {
+        List<FriendItemResult> content = queryFactory
+                .select(Projections.constructor(FriendItemResult.class,
+                        new CaseBuilder()
+                                .when(friend.fromAccountId.eq(userId)).then(friend.toAccountId)
+                                .otherwise(friend.fromAccountId),
+                        friend.fromAccountId,
+                        friend.toAccountId,
+                        friend.approvedAt
+                ))
+                .from(friend)
+                .where(
+                        isMyFriend(userId),
+                        friend.friendStatus.eq(FriendStatus.ACCEPTED)
+                )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(friend.approvedAt.desc())
+                .fetch();
+        long total = Optional.ofNullable(
+                queryFactory
+                        .select(friend.count())
+                        .from(friend)
+                        .where(
+                                (friend.fromAccountId.eq(userId).or(friend.toAccountId.eq(userId))),
+                                friend.friendStatus.eq(FriendStatus.ACCEPTED)
+                        )
+                        .fetchOne()).orElse(0L);
+
+        return new PageImpl<>(content, pageable, total);
+    }
+
+    private BooleanExpression isMyFriend(Long userId) {
+        return friend.fromAccountId.eq(userId).or(friend.toAccountId.eq(userId));
     }
 
     @Override
