@@ -54,7 +54,7 @@ public class FriendRepositoryImpl implements FriendRepository {
     }
 
     @Override
-    public Optional<Friend> findById(UUID friendRequestId) {
+    public Optional<Friend> findById(Long friendRequestId) {
         return friendRepositoryJpa.findFirstByFriendRequestId(friendRequestId);
     }
 }

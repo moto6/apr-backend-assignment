@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface FriendRepository {
     Page<Friend> findAllFriends(Long userId, Pageable pageable);
@@ -18,5 +17,5 @@ public interface FriendRepository {
 
     void save(Friend friend);
 
-    Optional<Friend> findById(UUID uuid);
+    Optional<Friend> findById(Long uuid);
 }

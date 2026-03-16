@@ -2,7 +2,10 @@
 @baseUrl = http://localhost:8080
 @myUserId = 1
 @targetUserId = 2
-@requestId = 550e8400-e29b-41d4-a716-446655440000
+@requestId_1 = 7777101
+@requestId_2 = 7777102
+@requestId_3 = 7777103
+@requestId_4 = 7777104
 
 
 ### 1. 친구 목록 조회 (Pagination)
@@ -31,12 +34,24 @@ Content-Type: application/json
 }
 
 
-### 4. 친구 요청 수락
-POST {{baseUrl}}/api/v1/friend/accept/{{requestId}}
-X-User-Id: {{myUserId}}
+### 4. 친구 요청 수락1
+POST {{baseUrl}}/api/v1/friend/accept/{{requestId_1}}
+X-User-Id: 707
 
+
+### 4. 친구 요청 수락2
+POST {{baseUrl}}/api/v1/friend/accept/{{requestId_3}}
+X-User-Id: 101
 
 
 ### 5. 친구 요청 거절
 POST {{baseUrl}}/api/v1/friend/reject/{{requestId}}
 X-User-Id: {{myUserId}}
+### 5. 친구 요청 거절1
+POST {{baseUrl}}/api/v1/friend/reject/{{requestId_2}}
+X-User-Id: 707
+
+
+### 5. 친구 요청 거절2
+POST {{baseUrl}}/api/v1/friend/reject/{{requestId_4}}
+X-User-Id: 101

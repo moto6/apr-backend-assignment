@@ -62,15 +62,15 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void acceptFriend(FriendActionCommand command) {
-        var friend = friendRepository.findById(command.requestId())
-                .orElseThrow(() -> new FriendNotFoundException(command.requestId()));
+        var friend = friendRepository.findById(command.friendRequestId())
+                .orElseThrow(() -> new FriendNotFoundException(command.friendRequestId()));
         friend.accept(command.accountId());
     }
 
     @Override
     public void rejectFriend(FriendActionCommand command) {
-        var friend = friendRepository.findById(command.requestId())
-                .orElseThrow(() -> new FriendNotFoundException(command.requestId()));
+        var friend = friendRepository.findById(command.friendRequestId())
+                .orElseThrow(() -> new FriendNotFoundException(command.friendRequestId()));
         friend.reject(command.accountId());
     }
 }

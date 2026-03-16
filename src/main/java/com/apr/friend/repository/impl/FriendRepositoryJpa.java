@@ -22,7 +22,5 @@ public interface FriendRepositoryJpa extends JpaRepository<Friend, Long> {
             Pageable pageable
     );
 
-    List<Friend> findByFriendRequestId(UUID friendRequestId);
-
-    Optional<Friend> findFirstByFriendRequestId(UUID friendRequestId);
+    Optional<Friend> findFirstByFriendRequestId(Long friendRequestId);
 }
