@@ -11,10 +11,11 @@ X-User-Id: {{myUserId}}
 Accept: application/json
 
 
+
 ### 2. 받은 친구 요청 목록 조회 (Cursor/Window 기반)
 # maxSize: 한 번에 가져올 개수 (기본 20)
 # window: 조회 범위 (기본 1d)
-GET {{baseUrl}}/api/v1/friend/requests?maxSize=20&window=1d
+GET {{baseUrl}}/api/v1/friend/requests?maxSize=20&window=7d
 X-User-Id: {{myUserId}}
 Accept: application/json
 

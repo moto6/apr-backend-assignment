@@ -56,12 +56,15 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void requestFriend(FriendRequestCommand command) {
-
+        Friend friend = Friend.requestOf(command.fromAccountId(), command.toAccountId());
+        friendRepository.save(friend);
     }
 
     @Override
     public void acceptFriend(FriendActionCommand command) {
-
+        var friend = friendRepository.findById(command.requestId())
+                .orElseThrow(() -> new FriendNotFoundException(command.requestId()));
+        friend.accept(command.accountId());
     }
 
     @Override
