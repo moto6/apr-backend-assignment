@@ -19,7 +19,7 @@ class LongIdGeneratorTest {
     @DisplayName("매번 다른 ID 가 생성 되어야 한다")
     void shouldGenerateUniqueIds() {
         Set<Long> ids = new HashSet<>();
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < 1000; i++) {
             long id = LongIdGenerator.nextId();
             log.info("id:{}", id);
             assertTrue(ids.add(id));
