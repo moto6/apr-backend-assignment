@@ -65,6 +65,51 @@ class FriendServiceImplTest {
         assertThat(pendingFriend.getFriendStatus()).isEqualTo(FriendStatus.ACCEPTED);
     }
 
+    @Test
+    @DisplayName("친구 요청을 보내면 저장소에 저장된다")
+    void requestFriend_Success() {
+        // given
+        FriendRequestCommand command = new FriendRequestCommand(1L, 2L);
+
+        // when
+        friendService.requestFriend(command);
+
+        // then
+        verify(friendRepository, times(1)).save(any(Friend.class));
+    }
+
+    @Test
+    @DisplayName("친구 목록 조회 시 페이징 정보와 결과를 반환한다")
+    void getFriendList_Success() {
+        // given
+        FriendListQuery query = new FriendListQuery(1L, PageRequest.of(0, 10));
+        given(friendRepository.findAllFriends(any(), any()))
+                .willReturn(new PageImpl<>(List.of()));
+
+        // when
+        FriendListResult result = friendService.getFriendList(query);
+
+        // then
+        assertThat(result).isNotNull();
+        verify(friendRepository).findAllFriends(eq(1L), any());
+    }
+
+    @Test
+    @DisplayName("친구 거절 시 내부 로직에 의해 거절 처리된다")
+    void rejectFriend_Success() {
+        // given
+        Long myId = 1L;
+        Long requestId = 100L;
+        Friend pendingFriend = Friend.requestOf(2L, myId);
+        given(friendRepository.findById(requestId)).willReturn(Optional.of(pendingFriend));
+
+        // when
+        friendService.rejectFriend(new FriendActionCommand(myId, requestId));
+
+        // then
+        assertThat(pendingFriend.getFriendStatus()).isEqualTo(FriendStatus.REJECTED);
+    }
+
     @Nested
     @DisplayName("친구 요청 수락 테스트")
     class AcceptFriendTest {
@@ -115,51 +160,6 @@ class FriendServiceImplTest {
             assertThatThrownBy(() -> friendService.acceptFriend(new FriendActionCommand(1L, requestId)))
                     .isInstanceOf(FriendNotFoundException.class);
         }
-    }
-
-    @Test
-    @DisplayName("친구 요청을 보내면 저장소에 저장된다")
-    void requestFriend_Success() {
-        // given
-        FriendRequestCommand command = new FriendRequestCommand(1L, 2L);
-
-        // when
-        friendService.requestFriend(command);
-
-        // then
-        verify(friendRepository, times(1)).save(any(Friend.class));
-    }
-
-    @Test
-    @DisplayName("친구 목록 조회 시 페이징 정보와 결과를 반환한다")
-    void getFriendList_Success() {
-        // given
-        FriendListQuery query = new FriendListQuery(1L, PageRequest.of(0, 10));
-        given(friendRepository.findAllFriends(any(), any()))
-                .willReturn(new PageImpl<>(List.of()));
-
-        // when
-        FriendListResult result = friendService.getFriendList(query);
-
-        // then
-        assertThat(result).isNotNull();
-        verify(friendRepository).findAllFriends(eq(1L), any());
-    }
-
-    @Test
-    @DisplayName("친구 거절 시 내부 로직에 의해 거절 처리된다")
-    void rejectFriend_Success() {
-        // given
-        Long myId = 1L;
-        Long requestId = 100L;
-        Friend pendingFriend = Friend.requestOf(2L, myId);
-        given(friendRepository.findById(requestId)).willReturn(Optional.of(pendingFriend));
-
-        // when
-        friendService.rejectFriend(new FriendActionCommand(myId, requestId));
-
-        // then
-        assertThat(pendingFriend.getFriendStatus()).isEqualTo(FriendStatus.REJECTED);
     }
 
 }

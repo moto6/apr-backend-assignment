@@ -3,8 +3,6 @@ package com.apr.context.ratelimit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 @Service
 @RequiredArgsConstructor
 public class RateLimiterService {
@@ -13,7 +11,7 @@ public class RateLimiterService {
 
     public boolean isAllowed(String key, int limit) {
         // 설계 명세: computeIfAbsent로 원자적 생성 보장
-        TokenBucket bucket = rateLimitBuckets.computeIfAbsense(key,limit);
+        TokenBucket bucket = rateLimitBuckets.computeIfAbsense(key, limit);
         return bucket.tryConsume();
     }
 

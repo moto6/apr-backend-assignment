@@ -92,7 +92,7 @@ public class Friend {
 
     private void checkTransition() {
         if (this.friendStatus != FriendStatus.PENDING) {
-            throw new FriendRequestConflictException(this.friendRequestId,this.friendStatus);
+            throw new FriendRequestConflictException(this.friendRequestId, this.friendStatus);
         }
     }
 }

@@ -15,16 +15,13 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class FriendValidatorTest {
+    private final Long targetAccountId = 1L;
     @InjectMocks
     private FriendValidator friendValidator;
-
     @Mock
     private FriendRepository friendRepository;
-
     @Mock
     private FriendProperties friendProperties;
-
-    private final Long targetAccountId = 1L;
 
     @Test
     @DisplayName("현재 친구 수가 제한(10,000)보다 적으면 검증을 통과한다")
