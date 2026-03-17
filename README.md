@@ -28,7 +28,9 @@
     - 프로젝트 루트 경로에서 명령어 입력 : `make clean`
 - [4] 이외
     - DB 스키마 : `src/main/resources/schema.sql` 파일
-    - API 명세 : 웹서버 실행(`make setup`) 이후, `http://localhost:8080/swagger-ui/index.html` 
+    - API 명세 : 웹서버 실행(`make setup`) 이후, `http://localhost:8080/swagger-ui/index.html`
+    - HTTP Client 예제 1 : `src/test/http/FrinedContrroller.http`
+    - HTTP Client 예제 2 :
 ---
 
 ## 핵심로직 설명
