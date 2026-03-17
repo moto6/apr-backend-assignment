@@ -10,8 +10,6 @@ spring:
     username: username
     password: password
 
-
-
   sql:
     init:
       mode: always
@@ -36,3 +34,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+app:
+  friend:
+    max-limit: 10000
