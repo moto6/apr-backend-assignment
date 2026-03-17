@@ -12,12 +12,14 @@ import com.apr.friend.service.vo.FriendListResult;
 import com.apr.friend.service.vo.FriendRequestCommand;
 import com.apr.friend.service.vo.FriendRequestListResult;
 import com.apr.friend.service.vo.ReceivedRequestsQuery;
+import com.apr.friend.service.vo.RequestItemResult;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,10 +41,10 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public FriendRequestListResult getReceivedRequests(ReceivedRequestsQuery query) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime from = query.window().getFromDateTime(now);
-        LocalDateTime to = query.window().getToDateTime(now);
-        var results = friendRepository.findAllReceivedRequests(
+        OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime from = query.window().getFromDateTime(now);
+        OffsetDateTime to = query.window().getToDateTime(now);
+        List<RequestItemResult> results = friendRepository.findAllReceivedRequests(
                 query,
                 from,
                 to

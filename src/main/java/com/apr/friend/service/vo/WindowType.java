@@ -1,6 +1,6 @@
 package com.apr.friend.service.vo;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 
 public enum WindowType {
@@ -23,17 +23,17 @@ public enum WindowType {
                 .orElse(ONE_DAY); // Default 값
     }
 
-    public LocalDateTime getFromDateTime(LocalDateTime now) {
+    public OffsetDateTime getFromDateTime(OffsetDateTime now) {
         return switch (this) {
             case ONE_DAY -> now.minusDays(1);
             case SEVEN_DAYS -> now.minusDays(7);
             case THIRTY_DAYS -> now.minusDays(30);
             case NINETY_DAYS -> now.minusDays(90);
-            case OVER_NINETY -> LocalDateTime.MIN; // 아주 과거부터
+            case OVER_NINETY -> OffsetDateTime.MIN; // 아주 과거부터
         };
     }
 
-    public LocalDateTime getToDateTime(LocalDateTime now) {
+    public OffsetDateTime getToDateTime(OffsetDateTime now) {
         return switch (this) {
             case OVER_NINETY -> now.minusDays(90).minusNanos(1); // 90일 이전까지
             default -> now;

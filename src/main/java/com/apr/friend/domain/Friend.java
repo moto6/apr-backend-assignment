@@ -16,7 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import static java.util.Objects.requireNonNull;
 
@@ -49,13 +49,13 @@ public class Friend {
     private FriendStatus friendStatus;
 
     @Column
-    private LocalDateTime requestedAt;
+    private OffsetDateTime requestedAt;
 
     @Column
-    private LocalDateTime approvedAt;
+    private OffsetDateTime approvedAt;
 
     @Column
-    private LocalDateTime rejectedAt; // TODO : DDL 반영필요
+    private OffsetDateTime rejectedAt; // TODO : DDL 반영필요
 
     public static Friend requestOf(Long fromAccountId, Long toAccountId) {
         requireNonNull(fromAccountId);
@@ -65,7 +65,7 @@ public class Friend {
                 .toAccountId(toAccountId)
                 .fromAccountId(fromAccountId)
                 .friendStatus(FriendStatus.PENDING)
-                .requestedAt(LocalDateTime.now())
+                .requestedAt(OffsetDateTime.now())
                 .build();
     }
 
@@ -73,14 +73,14 @@ public class Friend {
         checkPermission(accountId);
         checkTransition();
         this.friendStatus = FriendStatus.ACCEPTED;
-        this.approvedAt = LocalDateTime.now();
+        this.approvedAt = OffsetDateTime.now();
     }
 
     public void reject(Long accountId) {
         checkPermission(accountId);
         checkTransition();
         this.friendStatus = FriendStatus.REJECTED;
-        this.rejectedAt = LocalDateTime.now();
+        this.rejectedAt = OffsetDateTime.now();
     }
 
     private void checkPermission(Long accountId) {

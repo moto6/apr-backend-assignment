@@ -18,7 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +62,7 @@ public class FriendRepositoryImpl implements FriendRepository {
     }
 
     @Override
-    public List<RequestItemResult> findAllReceivedRequests(ReceivedRequestsQuery query, LocalDateTime from, LocalDateTime to) {
+    public List<RequestItemResult> findAllReceivedRequests(ReceivedRequestsQuery query, OffsetDateTime from, OffsetDateTime to) {
         QFriend friend = QFriend.friend;
         return queryFactory.select(new QRequestItemResult(
                         friend.friendRequestId,

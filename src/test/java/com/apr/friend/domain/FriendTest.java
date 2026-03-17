@@ -5,7 +5,7 @@ import com.apr.context.error.InsufficientPermissionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -19,7 +19,7 @@ class FriendTest {
         Long fromAccountId = 111L;
         Long toAccountId = 707L;
         Friend friend = Friend.requestOf(fromAccountId, toAccountId);
-        LocalDateTime beforeAccept = LocalDateTime.now();
+        OffsetDateTime beforeAccept = OffsetDateTime.now();
 
         // when: 수락 호출
         friend.accept(toAccountId);
@@ -27,7 +27,7 @@ class FriendTest {
         // then
         assertThat(friend.getFriendStatus()).isEqualTo(FriendStatus.ACCEPTED);
         assertThat(friend.getApprovedAt()).isAfterOrEqualTo(beforeAccept);
-        assertThat(friend.getApprovedAt()).isBeforeOrEqualTo(LocalDateTime.now());
+        assertThat(friend.getApprovedAt()).isBeforeOrEqualTo(OffsetDateTime.now());
     }
 
     @Test
