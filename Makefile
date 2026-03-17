@@ -23,6 +23,13 @@ test:
 	@echo "Done"
 
 
+reset:
+	@echo "Step 1: Stopping and removing existing container"
+	@docker rm -f apr-server 2>/dev/null || true
+	@echo "Step 2: Restarting setup process"
+	@$(MAKE) setup
+
+
 setup:
 	@echo "Step 1: Build executable jar"
 	@./gradlew bootJar > /dev/null
