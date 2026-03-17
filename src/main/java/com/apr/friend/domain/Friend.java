@@ -1,5 +1,6 @@
 package com.apr.friend.domain;
 
+import com.apr.context.error.InsufficientPermissionException;
 import com.apr.context.identity.LongIdGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
