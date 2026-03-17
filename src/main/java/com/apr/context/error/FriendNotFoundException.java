@@ -1,6 +1,4 @@
-package com.apr.friend.service.impl;
-
-import java.util.UUID;
+package com.apr.context.error;
 
 public class FriendNotFoundException extends RuntimeException {
     private static final String MESSAGE = "Friend request not found. friendRequestId=[%s]";

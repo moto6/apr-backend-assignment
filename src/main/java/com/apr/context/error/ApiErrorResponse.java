@@ -1,4 +1,4 @@
-package com.apr.context.advice;
+package com.apr.context.error;
 
 public record ApiErrorResponse(
         int code,

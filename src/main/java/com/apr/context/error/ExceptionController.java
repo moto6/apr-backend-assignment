@@ -1,7 +1,6 @@
-package com.apr.context.advice;
+package com.apr.context.error;
 
-import com.apr.friend.domain.InsufficientPermissionException;
-import com.apr.friend.service.impl.FriendNotFoundException;
+import com.apr.context.ratelimit.RateLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,5 +25,15 @@ public class ExceptionController {
                 e.getMessage()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(RateLimitExceededException.class)
+    public ResponseEntity<ApiErrorResponse> handleRateLimit(RateLimitExceededException e) {
+        ApiErrorResponse error = new ApiErrorResponse(
+                HttpStatus.TOO_MANY_REQUESTS.value(),
+                e.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(error);
     }
 }
