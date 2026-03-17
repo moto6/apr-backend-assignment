@@ -20,7 +20,7 @@ public enum WindowType {
         return Arrays.stream(values())
                 .filter(w -> w.value.equals(value))
                 .findFirst()
-                .orElse(ONE_DAY); // Default 값
+                .orElse(ONE_DAY);
     }
 
     public OffsetDateTime getFromDateTime(OffsetDateTime now) {
@@ -29,13 +29,13 @@ public enum WindowType {
             case SEVEN_DAYS -> now.minusDays(7);
             case THIRTY_DAYS -> now.minusDays(30);
             case NINETY_DAYS -> now.minusDays(90);
-            case OVER_NINETY -> OffsetDateTime.MIN; // 아주 과거부터
+            case OVER_NINETY -> OffsetDateTime.MIN;
         };
     }
 
     public OffsetDateTime getToDateTime(OffsetDateTime now) {
         return switch (this) {
-            case OVER_NINETY -> now.minusDays(90).minusNanos(1); // 90일 이전까지
+            case OVER_NINETY -> now.minusDays(90).minusNanos(1);
             default -> now;
         };
     }
