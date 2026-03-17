@@ -1,5 +1,6 @@
 package com.apr.friend.domain;
 
+import com.apr.context.error.FriendRequestConflictException;
 import com.apr.context.error.InsufficientPermissionException;
 import com.apr.context.identity.LongIdGenerator;
 import jakarta.persistence.Column;
@@ -91,9 +92,7 @@ public class Friend {
 
     private void checkTransition() {
         if (this.friendStatus != FriendStatus.PENDING) {
-            throw new IllegalStateException(
-                    String.format("이미 처리된 요청입니다. (현재 상태: %s)", this.friendStatus)
-            );
+            throw new FriendRequestConflictException(this.friendRequestId,this.friendStatus);
         }
     }
 }

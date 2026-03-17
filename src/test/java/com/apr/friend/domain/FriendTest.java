@@ -1,5 +1,6 @@
 package com.apr.friend.domain;
 
+import com.apr.context.error.FriendRequestConflictException;
 import com.apr.context.error.InsufficientPermissionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,8 +43,9 @@ class FriendTest {
 
         // then
         assertThatThrownBy(() -> friend.accept(toAccountId))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("이미 처리된 요청입니다");
+                .isInstanceOf(FriendRequestConflictException.class)
+                .hasMessageContaining("유효하지 않은 요청")
+                .describedAs("상태 천이가 불가한 경우 예외가 발생 한다");
     }
 
 

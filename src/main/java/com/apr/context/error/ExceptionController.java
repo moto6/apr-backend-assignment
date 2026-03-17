@@ -36,4 +36,14 @@ public class ExceptionController {
 
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(error);
     }
+
+    @ExceptionHandler(FriendRequestConflictException.class)
+    public ResponseEntity<ApiErrorResponse> handleRequestConflict(FriendRequestConflictException e) {
+        ApiErrorResponse error = new ApiErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                e.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
 }
