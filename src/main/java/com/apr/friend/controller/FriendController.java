@@ -42,9 +42,9 @@ public class FriendController {
     @GetMapping
     public ApiResponse<FriendListResponse> getFriends(
             @Parameter(description = "사용자 ID", required = true)
-            @RequestHeader("X-User-Id") Long userId,
+            @RequestHeader("X-User-Id") Long accountId,
             @PageableDefault(sort = "approvedAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        var result = friendService.getFriendList(new FriendListQuery(userId, pageable));
+        var result = friendService.getFriendList(new FriendListQuery(accountId, pageable));
         return ApiResponse.ok(friendMapper.toFriendListResponse(result));
     }
 

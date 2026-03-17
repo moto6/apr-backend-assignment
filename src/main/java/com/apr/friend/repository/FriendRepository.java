@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FriendRepository {
-    Page<FriendItemResult> findAllFriends(Long userId, Pageable pageable);
+    Page<FriendItemResult> findAllFriends(Long accountId, Pageable pageable);
 
     List<RequestItemResult> findAllReceivedRequests(ReceivedRequestsQuery query, OffsetDateTime from, OffsetDateTime to);
 

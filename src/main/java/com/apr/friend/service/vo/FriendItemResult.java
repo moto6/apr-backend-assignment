@@ -6,8 +6,8 @@ import java.time.OffsetDateTime;
 
 public record FriendItemResult(
         Long userId,
-        Long fromUserId,
-        Long toUserId,
+        Long fromAccountId,
+        Long toAccountId,
         OffsetDateTime approvedAt
 ) {
     public static FriendItemResult from(Friend friend, Long requestUserId) {

@@ -33,11 +33,11 @@ public class FriendRepositoryImpl implements FriendRepository {
     private final QFriend friend = QFriend.friend;
 
     @Override
-    public Page<FriendItemResult> findAllFriends(Long userId, Pageable pageable) {
+    public Page<FriendItemResult> findAllFriends(Long accountUd, Pageable pageable) {
         List<FriendItemResult> content = queryFactory
                 .select(Projections.constructor(FriendItemResult.class,
                         new CaseBuilder()
-                                .when(friend.fromAccountId.eq(userId)).then(friend.toAccountId)
+                                .when(friend.fromAccountId.eq(accountUd)).then(friend.toAccountId)
                                 .otherwise(friend.fromAccountId),
                         friend.fromAccountId,
                         friend.toAccountId,
@@ -45,14 +45,14 @@ public class FriendRepositoryImpl implements FriendRepository {
                 ))
                 .from(friend)
                 .where(
-                        isMyFriend(userId),
+                        isMyFriend(accountUd),
                         friend.friendStatus.eq(FriendStatus.ACCEPTED)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(friend.approvedAt.desc())
                 .fetch();
-        long total = this.countFriends(userId);
+        long total = this.countFriends(accountUd);
 
         return new PageImpl<>(content, pageable, total);
     }
