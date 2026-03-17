@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimit {
-    int value() default 10; // 초당 허용 요청 수 (기본값 10)
+    int value() default 10;
 }
