@@ -43,6 +43,7 @@ setup:
 	@echo "Step 4: Run docker container"
 	@docker run -d -p 8080:8080 --name apr-server apr-backend
 	@echo "Done"
+	@echo "API Docs : http://localhost:8080/swagger-ui/index.html"
 
 
 clean:

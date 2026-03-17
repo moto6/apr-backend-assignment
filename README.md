@@ -26,7 +26,9 @@
       - 처리율 제한 기능 구현 테스트 명령어 : `make many-request`
 - [3] 종료 및 환경설정 삭제
     - 프로젝트 루트 경로에서 명령어 입력 : `make clean`
-
+- [4] 이외
+    - DB 스키마 : `src/main/resources/schema.sql` 파일
+    - API 명세 : 웹서버 실행(`make setup`) 이후, `http://localhost:8080/swagger-ui/index.html` 
 ---
 
 ## 핵심로직 설명
