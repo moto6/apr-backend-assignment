@@ -57,16 +57,17 @@ class FriendTest {
         Long toAccountId = 2L;
         Friend friend = Friend.requestOf(fromAccountId, toAccountId);
 
-        // when & then: 요청자(111L)가 직접 수락을 시도하면 에러 발생
+        // when & then
         assertThatThrownBy(() -> friend.accept(fromAccountId))
                 .isInstanceOf(InsufficientPermissionException.class)
-                .hasMessageContaining("권한이 없습니다");
+                .hasMessageContaining("권한이 없습니다")
+                .describedAs("요청자(111L)가 직접 수락을 시도하면 에러 발생");
 
-        // when & then: 제3의 인물(999L)이 수락을 시도해도 에러 발생
         Long strangerId = 999L;
         assertThatThrownBy(() -> friend.accept(strangerId))
                 .isInstanceOf(InsufficientPermissionException.class)
-                .hasMessageContaining("권한이 없습니다");
+                .hasMessageContaining("권한이 없습니다")
+                .describedAs("제3의 인물(999L)이 수락을 시도해도 에러 발생");
     }
 
     @Test
@@ -75,10 +76,12 @@ class FriendTest {
         // given
         Friend friend = Friend.requestOf(111L, 2L);
 
-        // when & then: 요청을 받은 사람 이외에 거절을 시도하면 에러 발생
+        // when & then
         assertThatThrownBy(() -> friend.reject(111L))
-                .isInstanceOf(InsufficientPermissionException.class);
+                .isInstanceOf(InsufficientPermissionException.class)
+                .describedAs("요청을 받은 사람 이외에 친구거절을 시도하면 에러 발생");
         assertThatThrownBy(() -> friend.accept(111L))
-                .isInstanceOf(InsufficientPermissionException.class);
+                .isInstanceOf(InsufficientPermissionException.class)
+                .describedAs("요청을 받은 사람 이외에 친구수락을 시도하면 에러 발생");
     }
 }

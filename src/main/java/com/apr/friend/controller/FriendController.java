@@ -44,7 +44,9 @@ public class FriendController {
             @Parameter(description = "사용자 ID", required = true)
             @RequestHeader("X-User-Id") Long accountId,
             @PageableDefault(sort = "approvedAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        var result = friendService.getFriendList(new FriendListQuery(accountId, pageable));
+        var result = friendService.getFriendList(
+                new FriendListQuery(accountId, pageable)
+        );
         return ApiResponse.ok(friendMapper.toFriendListResponse(result));
     }
 
@@ -70,7 +72,9 @@ public class FriendController {
             @Parameter(description = "요청자 ID", required = true)
             @RequestHeader("X-User-Id") Long fromAccountId,
             @Valid @RequestBody FriendRequestDto requestDto) {
-        friendService.requestFriend(new FriendRequestCommand(fromAccountId, requestDto.toAccountId()));
+        friendService.requestFriend(
+                new FriendRequestCommand(fromAccountId, requestDto.toAccountId())
+        );
         return ResponseEntity.ok()
                 .build();
     }
