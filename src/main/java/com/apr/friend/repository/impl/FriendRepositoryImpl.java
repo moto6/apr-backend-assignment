@@ -63,7 +63,6 @@ public class FriendRepositoryImpl implements FriendRepository {
 
     @Override
     public List<RequestItemResult> findAllReceivedRequests(ReceivedRequestsQuery query, OffsetDateTime from, OffsetDateTime to) {
-        QFriend friend = QFriend.friend;
         return queryFactory.select(new QRequestItemResult(
                         friend.friendRequestId,
                         friend.fromAccountId,

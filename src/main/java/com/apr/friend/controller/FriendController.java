@@ -55,7 +55,7 @@ public class FriendController {
             @RequestHeader("X-User-Id") Long userId,
             @Parameter(description = "최대 조회 개수")
             @RequestParam(defaultValue = "20") int maxSize,
-            @Parameter(description = "조회 윈도우 (예: 1d, 7d, 30d)")
+            @Parameter(description = "조회 윈도우 (범례: 1d, 7d, 30d, 90d, over)")
             @RequestParam(defaultValue = "1d") String window) {
         var result = friendService.getReceivedRequests(
                 ReceivedRequestsQuery.of(userId, maxSize, window)
