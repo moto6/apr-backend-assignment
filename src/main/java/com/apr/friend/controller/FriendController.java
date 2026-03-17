@@ -55,6 +55,7 @@ public class FriendController {
         return ApiResponse.ok(friendMapper.toResponse(result));
     }
 
+    @RateLimit(10)// 초당10회
     @PostMapping("/request")
     public ResponseEntity<Void> requestFriend(
             @RequestHeader("X-User-Id") Long fromAccountId,

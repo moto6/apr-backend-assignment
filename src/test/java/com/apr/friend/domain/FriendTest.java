@@ -1,5 +1,6 @@
 package com.apr.friend.domain;
 
+import com.apr.context.error.InsufficientPermissionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
