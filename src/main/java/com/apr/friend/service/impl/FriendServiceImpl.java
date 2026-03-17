@@ -13,10 +13,10 @@ import com.apr.friend.service.vo.FriendRequestCommand;
 import com.apr.friend.service.vo.FriendRequestListResult;
 import com.apr.friend.service.vo.ReceivedRequestsQuery;
 import com.apr.friend.service.vo.RequestItemResult;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;

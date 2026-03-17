@@ -6,9 +6,11 @@ import com.apr.friend.repository.impl.AccountRepositoryJpa;
 import com.apr.friend.service.vo.AccountCreateResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AccountService {
 
     private final AccountRepositoryJpa accountRepository;
