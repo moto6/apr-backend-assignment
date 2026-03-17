@@ -14,8 +14,4 @@ public class RateLimiterService {
         TokenBucket bucket = rateLimitBuckets.computeIfAbsense(key, limit);
         return bucket.tryConsume();
     }
-
-    public void evictIdleBuckets() {
-        // TODO: lastAccessTime 기준으로 맵에서 제거하는 로직
-    }
 }

@@ -55,7 +55,7 @@ public class Friend {
     private OffsetDateTime approvedAt;
 
     @Column
-    private OffsetDateTime rejectedAt; // TODO : DDL 반영필요
+    private OffsetDateTime rejectedAt;
 
     public static Friend requestOf(Long fromAccountId, Long toAccountId) {
         requireNonNull(fromAccountId);
