@@ -19,4 +19,6 @@ public interface FriendRepository {
     void save(Friend friend);
 
     Optional<Friend> findById(Long uuid);
+
+    long countFriends(Long userId);
 }

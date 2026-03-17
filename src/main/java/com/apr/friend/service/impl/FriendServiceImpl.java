@@ -1,6 +1,8 @@
 package com.apr.friend.service.impl;
 
+import com.apr.context.error.FriendNotFoundException;
 import com.apr.friend.domain.Friend;
+import com.apr.friend.domain.component.FriendValidator;
 import com.apr.friend.repository.FriendRepository;
 import com.apr.friend.service.FriendService;
 import com.apr.friend.service.vo.FriendActionCommand;
@@ -10,6 +12,7 @@ import com.apr.friend.service.vo.FriendListResult;
 import com.apr.friend.service.vo.FriendRequestCommand;
 import com.apr.friend.service.vo.FriendRequestListResult;
 import com.apr.friend.service.vo.ReceivedRequestsQuery;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -18,9 +21,11 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FriendServiceImpl implements FriendService {
 
     private final FriendRepository friendRepository;
+    private final FriendValidator friendValidator;
 
     @Override
     public FriendListResult getFriendList(FriendListQuery query) {
@@ -42,7 +47,6 @@ public class FriendServiceImpl implements FriendService {
                 from,
                 to
         );
-
         return new FriendRequestListResult(
                 query.window().stringValue(),
                 results.size(),
@@ -58,6 +62,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void acceptFriend(FriendActionCommand command) {
+        friendValidator.validateCanAccept(command.accountId());
         var friend = friendRepository.findById(command.friendRequestId())
                 .orElseThrow(() -> new FriendNotFoundException(command.friendRequestId()));
         friend.accept(command.accountId());

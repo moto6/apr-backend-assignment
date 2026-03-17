@@ -22,6 +22,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.requireNonNullElse;
+
 @Repository
 @RequiredArgsConstructor
 public class FriendRepositoryImpl implements FriendRepository {
@@ -93,5 +95,18 @@ public class FriendRepositoryImpl implements FriendRepository {
     @Override
     public Optional<Friend> findById(Long friendRequestId) {
         return friendRepositoryJpa.findFirstByFriendRequestId(friendRequestId);
+    }
+
+    @Override
+    public long countFriends(Long userId) {
+        Long friendsCount = queryFactory
+                .select(
+                        friend.count())
+                .from(friend)
+                .where(
+                        isMyFriend(userId),
+                        friend.friendStatus.eq(FriendStatus.ACCEPTED))
+                .fetchOne();
+        return requireNonNullElse(friendsCount, 0L);
     }
 }
