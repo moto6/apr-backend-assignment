@@ -57,3 +57,13 @@ tasks.withType(JavaCompile).configureEach {
 clean {
     delete file(querydslDir)
 }
+
+test {
+    jvmArgs("-XX:+EnableDynamicAgentLoading")
+    doFirst {
+        def mockitoAgent = configurations.testRuntimeClasspath.find { it.name.contains("mockito-core") }
+        if (mockitoAgent) {
+            jvmArgs("-javaagent:${mockitoAgent.absolutePath}")
+        }
+    }
+}
