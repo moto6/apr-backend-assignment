@@ -52,15 +52,7 @@ public class FriendRepositoryImpl implements FriendRepository {
                 .limit(pageable.getPageSize())
                 .orderBy(friend.approvedAt.desc())
                 .fetch();
-        long total = Optional.ofNullable(
-                queryFactory
-                        .select(friend.count())
-                        .from(friend)
-                        .where(
-                                (friend.fromAccountId.eq(userId).or(friend.toAccountId.eq(userId))),
-                                friend.friendStatus.eq(FriendStatus.ACCEPTED)
-                        )
-                        .fetchOne()).orElse(0L);
+        long total = this.countFriends(userId);
 
         return new PageImpl<>(content, pageable, total);
     }
