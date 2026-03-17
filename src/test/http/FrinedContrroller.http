@@ -52,3 +52,16 @@ X-User-Id: 707
 ### 5. 친구 요청 거절2
 POST {{baseUrl}}/api/v1/friend/reject/{{requestId_4}}
 X-User-Id: 101
+
+
+
+### 계정생성
+POST {{baseUrl}}/api/v1/account
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "best i friend"
+}
+
+
