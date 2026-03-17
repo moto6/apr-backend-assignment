@@ -25,6 +25,12 @@ spring:
       hibernate:
       format_sql: true
 
+  jackson:
+    serialization:
+      write-dates-with-zone-id: false
+      write-date-timestamps-as-nanoseconds: false
+    time-zone: UTC
+
   logging:
     level:
       org.hibernate.SQL: debug
